@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=600">
+		<meta name="description"        content="Flight data visualized on a WebGL globe. Just like everyone else.">
+		<meta name="keywords"           content="data visualization animation flight patterns javascript webgl three.js canvas html5 css3">
+		<meta name="copyright"          content="Stewart Smith 2015">
+		<meta property="og:type"        content="website">
+		<meta property="og:title"       content="Airborne">
+		<meta property="og:description" content="Flight data visualized on a WebGL globe. Just like everyone else.">
+		<meta property="og:url"         content="http://stewd.io/airborne">
+		<meta property="og:image"       content="http://stewd.io/airborne/media/airborne-poster.png">
+		<title>Airborne</title>
+		<link rel="stylesheet" type="text/css" href="styles/base.css">
+		<script charset="utf-8" src="scripts/vendor/three.min.js"></script>
+		<script charset="utf-8" src="scripts/vendor/Detector.js"></script>
+		<script charset="utf-8" src="scripts/vendor/TrackballControls.js"></script>
+		<script charset="utf-8" src="scripts/vendor/stats.min.js"></script>
+		<script charset="utf-8" src="scripts/vendor/dat.gui.min.js"></script>
+		<script charset="utf-8" src="media/data/flights.js"></script>
+		<script charset="utf-8" src="scripts/analytics.js"></script>
+		<script charset="utf-8" src="scripts/airborne.js"></script>
+		<script type="x-shader/x-vertex" id="vertexShader">
+
+			attribute float size;
+			attribute vec3 customColor;
+
+			varying vec3 vColor;
+
+			void main(){
+			
+				vColor = customColor;
+				vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+				gl_PointSize = size * ( 300.0 / length( mvPosition.xyz ));
+				gl_Position = projectionMatrix * mvPosition;
+			}
+
+		</script>
+		<script type="x-shader/x-fragment" id="fragmentShader">
+			
+			uniform vec3 color;
+			uniform sampler2D texture;
+
+			varying vec3 vColor;
+
+			void main(){
+				
+				gl_FragColor = vec4( color * vColor, 1 );
+				gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );
+			}
+
+		</script>		
+	</head>
+	<body>
+		<div id="three"></div>
+		<div id="about">
+			<div class="page">
+				<h1>Airborne</h1>
+				Animated flight data?
+				Visualization globes?
+				It’s all been done already. 
+				There was Aaron Koblin’s <a target="_blank" href="http://www.aaronkoblin.com/work/flightpatterns/">Flight Patterns</a>,
+				the Data Arts Team <a target="_blank" href="https://github.com/dataarts/webgl-globe">WebGL Globe</a>,
+				Google’s O3D demos, 
+				and more recently Callum Prentice’s <a target="_blank" href="http://callumprentice.github.io/apps/flight_stream/index.html">Flight streams</a>
+				just to name a few.
+				I’ve pulled some inspiration from all of them to make this little demo for myself;
+				I often pull apart others’ code and rewrite it in order to learn how it works.
+				That’s all this is here.
+				(Feel free to pull it apart yourself—it’s on 
+				<a target="_blank" href="https://github.com/stewdio/airborne">GitHub</a>. 
+				I always try to code and comment legibly.)
+				<br><br>
+				I’ve only tested this in Chrome and to be honest only really on my own laptop—so quit your bellyaching kiddo.
+				No, the flight data does not contain actual flight times, airline codes, etc. Sorry.
+				But the data is publicly available <a target="_blank" href="http://openflights.org/data.html">here</a> which is fantastic.
+				So have a ball.
+				<br><br>
+				Cheers,<br>
+				<a target="_blank" href="http://stewd.io">Stewart Smith</a>
+			</div>
+		</div>
+	</body>
+</html>
