@@ -22,7 +22,7 @@ body {
 	padding: 0;
 	background-color: #000;
 	color: #888;
-	font-family: Ginger, "Helvetica Neue", Helvetica, sans-serif;
+	font-family: "F37Ginger", "Helvetica Neue", Helvetica, sans-serif;
 	font-size:   16px;
 	line-height: 20px;
 	overflow: hidden;
@@ -60,7 +60,7 @@ a:hover {
 .dg.ac input,
 .dg.ac .close-button {
 
-	font-family: Ginger, "Helvetica Neue", Helvetica, sans-serif !important;
+	font-family: "F37Ginger", "Helvetica Neue", Helvetica, sans-serif !important;
 	font-size:   14px;
 }
 .dg.ac .close-button {
