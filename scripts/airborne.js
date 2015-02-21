@@ -15,8 +15,8 @@
 var 
 sunRotationPerFrame     = 0.0023,
 earthRotationPerFrame   = 0.001,
-flightSpriteSize        = 0.05,
-flightsPathLinesOpacity = 0.05
+flightSpriteSize        = 0.04,
+flightsPathLinesOpacity = 0.04
 
 
 //  Three.js basics.
@@ -78,7 +78,7 @@ document.addEventListener( 'DOMContentLoaded', function(){
 		setupFlightsPointCloud()
 		setupGUI()
 
-		//flights = null
+		earth.rotation.y -= Math.PI / 3
 		system.rotation.z += 23.4 * Math.PI / 180
 		animate()
 	}
@@ -233,10 +233,8 @@ function setupEarth( radius ){
 
 function setFlightTimes( index ){
 	
-	if( index >= flightsTotal ) console.log('!!!!!!!!!!', index )
-
 	var 
-	flight    = flights[ index ]
+	flight    = flights[ index ],
 	distance  = latlongDistance( flight[ 0 ], flight[ 1 ], flight[ 2 ], flight[ 3 ]),
 	startTime = Date.now() + Math.floor( Math.random() * 1000 * 20 ),
 	duration  = Math.floor( distance * 1000 * 80 )
@@ -280,12 +278,8 @@ function setupFlightsPathSplines( radius ){
 		//  and long haul flights fly higher altitudes.
 		//  You dig man? You get it? You see what I mean?
 
-		distance = Math.sqrt( 
-
-			Math.pow( destinationLatitude  - originLatitude,  2 ) + 
-			Math.pow( destinationLongitude - originLongitude, 2 )
-		)
-		altitudeMax = 0.02 + distance * 0.001
+		distance = latlongDistance( originLatitude, originLongitude, destinationLatitude, destinationLongitude )
+		altitudeMax = 0.02 + distance * 0.1
 
 
 		//  Aight yall. 
