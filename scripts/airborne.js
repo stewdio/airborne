@@ -15,7 +15,7 @@
 var 
 sunRotationPerFrame     = 0.0023,
 earthRotationPerFrame   = 0.001,
-flightSpriteSize        = 0.04,
+flightSpriteSize        = 0.05,
 flightsPathLinesOpacity = 0.04
 
 
@@ -80,6 +80,7 @@ document.addEventListener( 'DOMContentLoaded', function(){
 
 		earth.rotation.y -= Math.PI / 3
 		system.rotation.z += 23.4 * Math.PI / 180
+		system.rotation.x = Math.PI / 5
 		animate()
 	}
 })
