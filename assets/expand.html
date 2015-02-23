@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script charset="utf-8" src="../media/data/flights-compressed2.js"></script>
+	</head>
+	<body>
+		<script charset="utf-8">
+
+
+
+
+function expand( input, fromZero ){
+
+	var 
+	symbols   = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',	
+	i, chr, n = '',
+	output    = 0
+
+	for( i = input.length - 1; i >= 0; i -- ){
+
+		chr = input.charAt( i )
+		n   = symbols.indexOf( chr ) * Math.pow( symbols.length, input.length - 1 - i )
+		output += n
+	}
+
+	//  We started with 6 significant digits
+	//  and multiplied appropriately to make them all integers
+	//  so now we must divide to go back.
+
+	output /= 1000000
+
+
+	//  We also had to bump up our coordinates from
+	//  -90 for latitude and -180 for longitude
+	//  so it’s time to bump them back down.
+
+	output += fromZero
+
+
+	//  Yea, we’re all done here.
+
+	return output
+}
+
+
+flights.forEach( function( f ){
+
+	f = f.split( '|' )
+	console.log( 
+
+		expand( f[0],  -90 ),
+		expand( f[1], -180 ),
+		expand( f[2],  -90 ),
+		expand( f[3], -180 )
+	)
+})
+
+
+
+
+		</script>
+	</body>
+</html>

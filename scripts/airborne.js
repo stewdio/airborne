@@ -73,14 +73,15 @@ document.addEventListener( 'DOMContentLoaded', function(){
 		setupSystem()
 		setupSun()
 		setupEarth()
+		setupFlights()
 		setupFlightsPathSplines()
 		setupFlightsPathLines()
 		setupFlightsPointCloud()
 		setupGUI()
 
-		earth.rotation.y -= Math.PI / 3
+		earth.rotation.y  -= Math.PI / 3
 		system.rotation.z += 23.4 * Math.PI / 180
-		system.rotation.x = Math.PI / 5
+		system.rotation.x  = Math.PI / 5
 		animate()
 	}
 })
@@ -230,6 +231,60 @@ function setupEarth( radius ){
   //   Flights   //
  //             //
 /////////////////
+
+
+//  In order to reduce the size of our dataset
+//  we’ve compressed it -- in a very dumb way ;)
+//  To make it useful again we must expand it.
+
+function setupFlights(){
+
+	function expand( input, fromZero ){
+
+		var 
+		symbols   = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',	
+		i, chr, n = '',
+		output    = 0
+
+		for( i = input.length - 1; i >= 0; i -- ){
+
+			chr = input.charAt( i )
+			n   = symbols.indexOf( chr ) * Math.pow( symbols.length, input.length - 1 - i )
+			output += n
+		}
+
+		//  We started with 6 significant digits
+		//  and multiplied appropriately to make them all integers
+		//  so now we must divide to go back.
+
+		output /= 1000000
+
+
+		//  We also had to bump up our coordinates from
+		//  -90 for latitude and -180 for longitude
+		//  so it’s time to bump them back down.
+
+		output += fromZero
+
+
+		//  Yea, we’re all done here.
+
+		return output
+	}
+	flights.forEach( function( f, i ){
+
+		f = f.split( '|' )
+		flights[ i ] = [
+			
+			expand( f[0],  -90 ),
+			expand( f[1], -180 ),
+			expand( f[2],  -90 ),
+			expand( f[3], -180 )
+		]
+	})
+}
+
+
 
 
 function setFlightTimes( index ){
